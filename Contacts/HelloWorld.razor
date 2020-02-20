@@ -1,0 +1,30 @@
+﻿<ContentPage>
+    <StackLayout Margin="new Thickness(20)">
+        <ScrollView>
+            <StackLayout>
+
+                @foreach (var contact in Contacts)
+                {
+                    <ContactView Result="@contact" />
+                }
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>
+
+@code { 
+    List<Result> Contacts = new List<Result>();
+    protected async override Task OnInitializedAsync()
+    {
+        var randomUserService = new RandomUserService();
+
+        var data = await randomUserService.GetUserData(100);
+
+        for (int index = 0; index < 10; index++)
+        {
+            Console.WriteLine("Adding items...");
+            Contacts.AddRange(data.results);
+        }
+        Console.WriteLine($"HEY THERE! COUNT: {Contacts.Count}");
+    }
+}

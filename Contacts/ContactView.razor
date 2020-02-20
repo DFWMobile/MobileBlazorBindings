@@ -1,0 +1,54 @@
+﻿<StackLayout Orientation="StackOrientation.Horizontal">
+    <Frame CornerRadius="50"
+           Padding="0"
+           HorizontalOptions="LayoutOptions.Center"
+           VerticalOptions="LayoutOptions.Center"
+           >
+        <Image Source="@Result.picture.large"
+               WidthRequest="100"
+               HeightRequest="100"/>
+    </Frame>
+
+    <StackLayout>
+        <Label Text="@($"{Result.name.last}, {Result.name.first}")"
+               FontSize="20"/>
+        <Label Text="@($"{Result.location.city}, {Result.location.state}")"
+               FontSize="15" />
+        <StackLayout Orientation="StackOrientation.Horizontal">
+            <Button Text="📱" OnClick="@Call" />
+            <Button Text="✉" OnClick="@EmailClick" />
+        </StackLayout>
+    </StackLayout>
+</StackLayout>
+
+@code {
+    [Parameter] public Result Result { get; set; }
+
+    void Call()
+    {
+        try
+        {
+            PhoneDialer.Open(Result.phone);
+        }
+        catch
+        {
+
+        }
+    }
+
+    async Task EmailClick()
+    {
+        
+        try
+        {
+            await Email.ComposeAsync
+                ("Blazor Mobile Bindings",
+                "Why am I doing this?",
+                new string[] { "james.montemagno@microsoft.com" });
+        }
+        catch
+        {
+
+        }
+    }
+}
